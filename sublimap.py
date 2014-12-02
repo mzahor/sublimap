@@ -1,4 +1,6 @@
 import sublime, sublime_plugin
+import time
+import datetime
 
 def log_error(ex, command):
     error_msg = 'Error in ' + command + ': ' + str(ex)
