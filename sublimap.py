@@ -1,5 +1,10 @@
 import sublime, sublime_plugin
 
+def log_error(ex, command):
+	error_msg = 'Error in ' + command + ': ' + str(ex)
+	print error_msg
+	sublime.status_message(error_msg)
+
 class SubliMapCommand(sublime_plugin.TextCommand):
 	def run(self, edit):
 		self.edit = edit
@@ -14,7 +19,7 @@ class SubliMapCommand(sublime_plugin.TextCommand):
 				replacement = replacer(txt, idx)
 				self.view.replace(self.edit, region, replacement)
 		except Exception as e:
-			print 'Error in SubliMap: ', e
+			log_error(e, 'SubliMap')
 		finally:
 			self.view.end_edit(edit)
 
@@ -27,9 +32,11 @@ class SubliReduceCommand(sublime_plugin.TextCommand):
 		try:
 			edit = self.view.begin_edit()
 			reducer = eval('lambda x, y: ' + inp)
-			reduce(reducer, map(self.view.sel(), lambda x: self.view.substr(x))),
-			self.view.replace(self.edit, region, replacement)
+			result = reduce(reducer, map(lambda x: self.view.substr(x), self.view.sel()))
+			sublime.status_message("Result: " + str(result))
+			map(lambda x: self.view.erase(edit, x), self.view.sel())
+			self.view.replace(edit, self.view.sel()[0], str(result))
 		except Exception as e:
-			print 'Error in SubliReduce: ', e
+			log_error(e, 'SubliReduce')
 		finally:
 			self.view.end_edit(edit)
