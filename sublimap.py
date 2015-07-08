@@ -4,7 +4,7 @@ import datetime
 
 def log_error(ex, command):
     error_msg = 'Error in ' + command + ': ' + str(ex)
-    print error_msg
+    print(error_msg)
     sublime.status_message(error_msg)
 
 class SubliMapCommand(sublime_plugin.TextCommand):
