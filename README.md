@@ -5,3 +5,11 @@ This is plugin for developers, so if you use it efficiently you need to know a b
 
 ## Demo
 ![alt tag](/demo.gif)
+
+## Keymapping
+```json
+[
+	{ "keys": ["ctrl+alt+m"], "command": "subli_map" },
+	{ "keys": ["ctrl+alt+r"], "command": "subli_reduce" }
+]
+```
